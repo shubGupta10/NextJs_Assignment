@@ -43,7 +43,8 @@ const FetchAllTask = () => {
                 setLoading(true);
                 const response = await axios.get('/api/Task/AllTask');
                 setAllTask(response.data.tasks);
-            } catch (error) {
+            } catch (error: unknown) {
+                console.error("Something went wrong")
                 toast.error('Something went wrong', {
                     duration: 4000,
                     position: 'top-center',

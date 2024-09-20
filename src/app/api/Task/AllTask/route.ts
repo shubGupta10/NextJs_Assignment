@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+import {NextResponse } from "next/server";
 import {connect} from '@/dbConfig/connect'
 import Task from "@/models/TaskModel";
 
 connect();
 
-export async function GET(request: NextRequest) {
+export async function GET() {
     try {
         const tasks = await Task.find();
 

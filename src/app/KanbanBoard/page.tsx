@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Clock } from 'lucide-react';
-import { Toaster, toast } from 'react-hot-toast';
+import {toast } from 'react-hot-toast';
 import Loader from "../myComponents/Loader";
 
 interface Task {
