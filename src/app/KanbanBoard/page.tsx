@@ -1,9 +1,9 @@
 'use client';
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
 import { Clock } from 'lucide-react';
-import {toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import Loader from "../myComponents/Loader";
 
 interface Task {
@@ -59,7 +59,7 @@ const KanbanBoard = () => {
     fetchTasks();
   }, []);
 
-  const onDragEnd = async (result: any) => {
+  const onDragEnd = async (result: DropResult) => {
     const { destination, source, draggableId } = result;
 
     if (!destination) return;
@@ -87,9 +87,7 @@ const KanbanBoard = () => {
     }
   };
 
-  if (isLoading) return (
-    <Loader/>
-  );
+  if (isLoading) return <Loader />;
 
   if (error) return (
     <div className="flex justify-center items-center h-screen bg-black text-red-400">{error}</div>
@@ -121,7 +119,7 @@ const KanbanBoard = () => {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
-                              className={`bg-gray-800 p-4 mb-4 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-200 $(
+                              className={`bg-gray-800 p-4 mb-4 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-200 ${
                                 snapshot.isDragging ? 'shadow-xl' : ''
                               }`}
                               style={{

@@ -4,13 +4,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export default function TestimonialsSection() {
   const testimonials = [
     {
-      quote: "This app has transformed the way I manage my projects. It's intuitive and powerful!",
+      quote: "This app has transformed the way I manage my projects. It&apos;s intuitive and powerful!",
       author: "Jane Doe",
       role: "Project Manager",
       avatar: "/api/placeholder/32/32",
     },
     {
-      quote: "I've tried many task management tools, but this one stands out. It's a game-changer for our team.",
+      quote: "I&apos;ve tried many task management tools, but this one stands out. It&apos;s a game-changer for our team.",
       author: "John Smith",
       role: "Team Lead",
       avatar: "/api/placeholder/32/32",
@@ -34,8 +34,7 @@ export default function TestimonialsSection() {
                     <AvatarFallback>{testimonial.author.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <cite className="font-semibold text-white not-italic">{testimonial.author}
-                    </cite>
+                    <cite className="font-semibold text-white not-italic">{testimonial.author}</cite>
                     <p className="text-sm text-white">{testimonial.role}</p>
                   </div>
                 </div>
