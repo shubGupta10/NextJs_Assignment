@@ -21,7 +21,14 @@ import { useAuth } from "@/context/AuthContext";
 export default function CreateTask() {
     const {CurrentLoggedInUser} = useAuth();
     const router = useRouter();
-    const [user, setUser] = useState({
+    const [user, setUser] = useState<{
+        title: string;
+        description: string;
+        status: string;
+        priority: string;
+        dueDate: Date | null;
+        createdBy: string;
+    }>({
         title: "",
         description: "",
         status: "",

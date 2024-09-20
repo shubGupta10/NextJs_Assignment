@@ -24,7 +24,7 @@ export default function Navbar() {
     router.push("/Home");
   };
 
-  const handleClick = (href) => {
+  const handleClick = (href: string) => {
     setIsLoading(true);
     setTimeout(() => {
       router.push(href);

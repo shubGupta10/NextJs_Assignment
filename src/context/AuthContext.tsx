@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react'; 
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { getDataFromToken } from '@/app/helpers/getDataFromTokens';
@@ -7,6 +7,7 @@ import { getDataFromToken } from '@/app/helpers/getDataFromTokens';
 interface User {
   id: string;
   username: string;
+  email: string;
 }
 
 interface AuthContextType {
@@ -25,7 +26,11 @@ const AuthContext = createContext<AuthContextType>({
   logout: () => {},
 });
 
-export function AuthProvider({ children }) {
+interface AuthProviderProps {
+  children: ReactNode;  
+}
+
+export function AuthProvider({ children }: AuthProviderProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [CurrentLoggedInUser, setCurrentLoggedInUser] = useState<User | null>(null);
   const [id, setId] = useState<string | null>(null);
@@ -33,7 +38,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const token = Cookies.get('token');
     if (token) {
-      const userId = getDataFromToken(token);
+      const userId = getDataFromToken(token) as { id: string }; 
       if (userId?.id) {
         setIsAuthenticated(true);
         setId(userId.id);
@@ -55,9 +60,6 @@ export function AuthProvider({ children }) {
       logout();
     }
   };
-
-  useEffect(() => {
-  }, [CurrentLoggedInUser]);
 
   const logout = () => {
     Cookies.remove('token');

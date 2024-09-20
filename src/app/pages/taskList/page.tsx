@@ -10,6 +10,7 @@ import { AlertCircle, Calendar, Clock, User, Edit, Trash } from "lucide-react";
 import { useRouter } from 'next/navigation';
 
 interface Task {
+    _id: string;
     createdAt: string;
     createdBy: string;
     description: string;

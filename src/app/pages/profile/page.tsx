@@ -10,9 +10,8 @@ import axios from "axios";
 import { useAuth } from '@/context/AuthContext'; 
 
 export default function Profile() {
-  const { id: userId, isAuthenticated, user: authUser } = useAuth(); 
-  const [user, setUser] = useState({ 
-    username: "", email: "" });
+  const { id: userId, isAuthenticated, CurrentLoggedInUser } = useAuth(); 
+  const [user, setUser] = useState<{ username: string; email: string } | null>(null);
 
   useEffect(() => {
     if (userId) {
@@ -20,10 +19,10 @@ export default function Profile() {
     }
   }, [userId, isAuthenticated]);
 
-  const fetchUserData = async (id) => {
+  const fetchUserData = async (id: string) => {
     try {
       const response = await axios.get(`/api/users/profile/${id}`);
-      setUser(response.data.user);
+      setUser(response.data.user || { username: "", email: "" });
     } catch (error) {
       toast.error("Error fetching user data");
       console.error(error);
@@ -49,7 +48,7 @@ export default function Profile() {
                 id="username"
                 type="text"
                 readOnly
-                value={authUser?.username || user.username || "N/A"} 
+                value={CurrentLoggedInUser?.username || user?.username || "N/A"} 
                 className="bg-gray-800 border border-gray-600 text-white placeholder-gray-500"
               />
             </div>
@@ -62,7 +61,7 @@ export default function Profile() {
                 id="email"
                 readOnly
                 type="email"
-                value={authUser?.email || user.email || "N/A"}
+                value={CurrentLoggedInUser?.email || user?.email || "N/A"}
                 className="bg-gray-800 border border-gray-600 text-white placeholder-gray-500"
               />
             </div>
