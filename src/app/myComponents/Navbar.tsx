@@ -5,39 +5,59 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import Loader from "../myComponents/Loader";
 
+interface NavLinkProps {
+  href: string;
+  children: React.ReactNode;
+}
+
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isHydrated, setIsHydrated] = useState(false);
-  const { isAuthenticated, logout } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { isAuthenticated, logout, CurrentLoggedInUser } = useAuth();
+  const [authState, setAuthState] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
-    setIsHydrated(true);
-  }, []);
+    setAuthState(isAuthenticated && !!CurrentLoggedInUser);
+  }, [isAuthenticated, CurrentLoggedInUser]);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const handleLogout = async () => {
     setIsLoading(true);
-    logout();
+    await logout();
+    setIsLoading(false);
     router.push("/Home");
   };
 
   const handleClick = (href: string) => {
     setIsLoading(true);
-    setTimeout(() => {
-      router.push(href);
-    }, 100);
+    router.push(href);
   };
 
-  if (!isHydrated) {
-    return null;
-  }
+  useEffect(() => {
+    if (isLoading) {
+      const timer = setTimeout(() => setIsLoading(false), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading]);
+
+  const NavLink: React.FC<NavLinkProps> = ({ href, children }) => (
+    <a
+      href={href}
+      onClick={(e) => {
+        e.preventDefault();
+        handleClick(href);
+      }}
+      className="px-3 py-2 rounded-md text-xl font-medium hover:bg-blue-500 hover:text-white transition duration-300"
+    >
+      {children}
+    </a>
+  );
 
   return (
     <div className="relative">
-      {isLoading && <Loader />} 
+      {isLoading && <Loader />}
       <nav className="bg-black text-white shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -48,19 +68,23 @@ export default function Navbar() {
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
-                <a href="/Home" onClick={() => handleClick("/Home")} className="px-3 py-2 rounded-md text-xl font-medium hover:bg-blue-500 hover:text-white transition duration-300">Home</a>
-                {isAuthenticated ? (
+                <NavLink href="/Home">Home</NavLink>
+                {authState ? (
                   <>
-                    <a href="/pages/AddTask" onClick={() => handleClick("/pages/AddTask")} className="px-3 py-2 rounded-md text-xl font-medium hover:bg-blue-500 hover:text-white transition duration-300">Add task</a>
-                    <a href="/pages/taskList" onClick={() => handleClick("/pages/taskList")} className="px-3 py-2 rounded-md text-xl font-medium hover:bg-blue-500 hover:text-white transition duration-300">Task list</a>
-                    <a href="/KanbanBoard" onClick={() => handleClick("/KanbanBoard")} className="px-3 py-2 rounded-md text-xl font-medium hover:bg-blue-500 hover:text-white transition duration-300">Dashboard</a>
-                    <a href="/pages/profile" onClick={() => handleClick("/pages/profile")} className="px-3 py-2 rounded-md text-xl font-medium hover:bg-blue-500 hover:text-white transition duration-300">Profile</a>
+                    <NavLink href="/pages/AddTask">Add task</NavLink>
+                    <NavLink href="/pages/taskList">Task list</NavLink>
+                    <NavLink href="/KanbanBoard">Dashboard</NavLink>
+                    <NavLink href="/pages/profile">Profile</NavLink>
                     <button onClick={handleLogout} className="px-3 py-2 rounded-md text-sm font-medium bg-red-500 hover:bg-red-600 transition duration-300">Logout</button>
                   </>
                 ) : (
                   <>
-                    <a href="/pages/signup" onClick={() => handleClick("/pages/signup")} className="px-3 py-2 rounded-md text-xl font-medium bg-green-500 hover:bg-green-600 transition duration-300">Signup</a>
-                    <a href="/pages/login" onClick={() => handleClick("/pages/login")} className="px-3 py-2 rounded-md text-xl font-medium bg-yellow-500 hover:bg-yellow-600 transition duration-300">Login</a>
+                    <NavLink href="/pages/signup">
+                      <span className="px-3 py-2 rounded-md text-xl font-medium bg-green-500 hover:bg-green-600 transition duration-300">Signup</span>
+                    </NavLink>
+                    <NavLink href="/pages/login">
+                      <span className="px-3 py-2 rounded-md text-xl font-medium bg-yellow-500 hover:bg-yellow-600 transition duration-300">Login</span>
+                    </NavLink>
                   </>
                 )}
               </div>
@@ -83,18 +107,44 @@ export default function Navbar() {
       </nav>
 
       <div className={`md:hidden ${isOpen ? 'block' : 'hidden'}`}>
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-blue-500">
-          <a href="/pages/Home" onClick={() => handleClick("/pages/Home")} className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-blue-600 transition duration-300">Home</a>
-          {isAuthenticated ? (
-            <button onClick={handleLogout} className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-white bg-red-500 hover:bg-red-600 transition duration-300">Logout</button>
-          ) : (
+    <div className="px-4 pt-4 pb-6 space-y-2 sm:px-5 bg-gray-900">
+        <NavLink href="/Home">
+            <span className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700 transition duration-300">Home</span>
+        </NavLink>
+        {authState ? (
             <>
-              <a href="/pages/signup" onClick={() => handleClick("/pages/signup")} className="block px-3 py-2 rounded-md text-base font-medium text-white bg-green-500 hover:bg-green-600 transition duration-300">Signup</a>
-              <a href="/pages/login" onClick={() => handleClick("/pages/login")} className="block px-3 py-2 rounded-md text-base font-medium text-white bg-yellow-500 hover:bg-yellow-600 transition duration-300">Login</a>
+                <NavLink href="/pages/AddTask">
+                    <span className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700 transition duration-300">Add Task</span>
+                </NavLink>
+                <NavLink href="/pages/taskList">
+                    <span className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700 transition duration-300">Task List</span>
+                </NavLink>
+                <NavLink href="/KanbanBoard">
+                    <span className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700 transition duration-300">Dashboard</span>
+                </NavLink>
+                <NavLink href="/pages/profile">
+                    <span className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700 transition duration-300">Profile</span>
+                </NavLink>
+                <button 
+                    onClick={handleLogout} 
+                    className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-white bg-red-500 hover:bg-red-600 transition duration-300"
+                >
+                    Logout
+                </button>
             </>
-          )}
-        </div>
-      </div>
+        ) : (
+            <>
+                <NavLink href="/pages/signup">
+                    <span className="block px-3 py-2 rounded-md text-base font-medium text-white bg-green-500 hover:bg-green-600 transition duration-300">Signup</span>
+                </NavLink>
+                <NavLink href="/pages/login">
+                    <span className="block px-3 py-2 rounded-md text-base font-medium text-white bg-yellow-500 hover:bg-yellow-600 transition duration-300">Login</span>
+                </NavLink>
+            </>
+        )}
+    </div>
+</div>
+
     </div>
   );
 }
