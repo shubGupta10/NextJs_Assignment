@@ -1,10 +1,12 @@
 # Tasker
 
-Tasker is a task management application built with **Next.js**, **Node.js** , **TypeScript**, **Shadcn**, and  **Tailwind CSS**. It provides a user-friendly interface for managing tasks, including a Kanban board for organizing and tracking task progress.
+Tasker is a task management application built with **Next.js**, **Node.js**, **TypeScript**, **Shadcn**, and **Tailwind CSS**. It provides a user-friendly interface for managing tasks, including a Kanban board for organizing and tracking task progress.
 
 ## Live Demo
 
 Check out the live application at [Tasker Live](https://trytasker.vercel.app/Home).
+
+Watch a demo of the application [here](https://github.com/user-attachments/assets/3d01eb31-3691-4363-a1a5-f3b26710dfc4).
 
 ## Features
 
@@ -16,8 +18,8 @@ Check out the live application at [Tasker Live](https://trytasker.vercel.app/Hom
 ## Technologies Used
 
 - **Next.js**: Framework for server-rendered React applications.
-- **TypeScript**: JavaScript with type definitions for better development experience.
-- **Node.Js**: JavaScript runtime for building the backend.
+- **TypeScript**: JavaScript with type definitions for a better development experience.
+- **Node.js**: JavaScript runtime for building the backend.
 - **Shadcn**: Component library for building UI elements.
 - **Tailwind CSS**: Utility-first CSS framework for styling.
 
