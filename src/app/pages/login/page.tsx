@@ -11,7 +11,6 @@ import { useRouter } from "next/navigation";
 
 export default function login() {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
-  const router = useRouter();
   const [user, setUser] = useState({
     email: "",
     password: ""
@@ -24,9 +23,9 @@ export default function login() {
       setLoading(true);
       const response = await axios.post(`${baseUrl}/api/users/Auth/login`, user);
       setUser(response.data);
-      router.push("/Home");
       toast.success("Login Successful");
       setUser({ email: "", password: "" });
+      window.location.href = "/Home";
     } catch (error: unknown) {
       const message = axios.isAxiosError(error) ? error.response?.data?.message || error.message : "An unexpected error occurred.";
       toast.error(message);

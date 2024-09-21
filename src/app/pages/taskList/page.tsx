@@ -60,7 +60,7 @@ const FetchAllTask = () => {
 
     useEffect(() => {
         fetchTasks();
-        const intervalId = setInterval(fetchTasks, 300); 
+        const intervalId = setInterval(fetchTasks, 30000); 
         return () => clearInterval(intervalId);
     }, [fetchTasks]);
 
