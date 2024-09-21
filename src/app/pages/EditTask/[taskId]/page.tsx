@@ -64,7 +64,7 @@ const EditTask: React.FC<{ params: { taskId: string } }> = ({ params }) => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.put(`/api/Task/editTask/${taskId}`, task);
+            const response = await axios.put(`${baseUrl}/api/Task/editTask/${taskId}`, task);
             if (response.data.updatedTask) {
                 toast.success('Task updated successfully!');
                 router.push('/pages/taskList');
