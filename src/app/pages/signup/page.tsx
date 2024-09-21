@@ -10,6 +10,7 @@ import { toast } from 'react-hot-toast';
 import { useRouter } from "next/navigation";
 
 export default function Signup() {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
   const router = useRouter();
   const [user, setUser] = useState({
     username: "",
@@ -22,7 +23,7 @@ export default function Signup() {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await axios.post("/api/users/Auth/signup", user);
+      const response = await axios.post(`${baseUrl}/api/users/Auth/signup`, user);
       setUser(response.data);
       toast.success("Signup Successful");
       router.push("/pages/login");

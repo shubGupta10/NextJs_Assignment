@@ -31,6 +31,7 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [CurrentLoggedInUser, setCurrentLoggedInUser] = useState<User | null>(null);
   const [id, setId] = useState<string | null>(null);
@@ -49,7 +50,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const fetchCurrentUser = async (id: string, token: string) => {
     try {
-      const response = await axios.get(`/api/users/profile/${id}`, {
+      const response = await axios.get(`${baseUrl}/api/users/profile/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

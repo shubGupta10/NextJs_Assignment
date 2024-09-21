@@ -18,6 +18,7 @@ interface Task {
 }
 
 const EditTask: React.FC<{ params: { taskId: string } }> = ({ params }) => {
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
     const router = useRouter();
     const { taskId } = params;
 
@@ -36,7 +37,7 @@ const EditTask: React.FC<{ params: { taskId: string } }> = ({ params }) => {
 
         const fetchTask = async () => {
             try {
-                const response = await axios.get(`/api/Task/FetchTaskByID/${taskId}`);
+                const response = await axios.get(`${baseUrl}/api/Task/FetchTaskByID/${taskId}`);
                 setTask(response.data.response || {
                     title: '',
                     description: '',

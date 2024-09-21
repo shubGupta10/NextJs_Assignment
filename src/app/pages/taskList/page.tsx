@@ -34,6 +34,7 @@ const statusColors = {
 };
 
 const FetchAllTask = () => {
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
     const router = useRouter();
     const [allTask, setAllTask] = useState<Task[]>([]);
     const [loading, setLoading] = useState(true);
@@ -42,7 +43,7 @@ const FetchAllTask = () => {
         const fetchingAllUserTask = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get('/api/Task/AllTask');
+                const response = await axios.get(`${baseUrl}/api/Task/AllTask`);
                 setAllTask(response.data.tasks);
             } catch (error) {
                 console.error("Something went wrong")
@@ -67,7 +68,7 @@ const FetchAllTask = () => {
 
     const handleDelete = async (taskId: string) => {
         try {
-            await axios.delete(`/api/Task/deleteTask/${taskId}`);
+            await axios.delete(`${baseUrl}/api/Task/deleteTask/${taskId}`);
             setAllTask(allTask.filter(task => task._id !== taskId));
             toast.success('Task deleted successfully!');
         } catch (error) {

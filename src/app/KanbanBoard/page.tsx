@@ -34,6 +34,7 @@ const priorityColors = {
 };
 
 const KanbanBoard = () => {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -42,7 +43,7 @@ const KanbanBoard = () => {
     const fetchTasks = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get<ApiResponse>("/api/Task/AllTask");
+        const response = await axios.get<ApiResponse>(`${baseUrl}/api/Task/AllTask`);
         if (response.data.status && Array.isArray(response.data.tasks)) {
           setTasks(response.data.tasks);
         } else {
@@ -77,7 +78,7 @@ const KanbanBoard = () => {
     setTasks(updatedTasks);
 
     try {
-      await axios.put(`/api/Task/UpdateStatus/${movedTask._id}`, { status: movedTask.status });
+      await axios.put(`${baseUrl}/api/Task/UpdateStatus/${movedTask._id}`, { status: movedTask.status });
       toast.success(`Task "${movedTask.title}" moved from ${oldStatus} to ${movedTask.status}`);
     } catch (error) {
       console.error("Error updating task status:", error);

@@ -10,6 +10,7 @@ import axios from "axios";
 import { useAuth } from '@/context/AuthContext'; 
 
 export default function Profile() {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
   const { id: userId, isAuthenticated, CurrentLoggedInUser } = useAuth(); 
   const [user, setUser] = useState<{ username: string; email: string } | null>(null);
 
@@ -21,7 +22,7 @@ export default function Profile() {
 
   const fetchUserData = async (id: string) => {
     try {
-      const response = await axios.get(`/api/users/profile/${id}`);
+      const response = await axios.get(`${baseUrl}/api/users/profile/${id}`);
       setUser(response.data.user || { username: "", email: "" });
     } catch (error) {
       toast.error("Error fetching user data");

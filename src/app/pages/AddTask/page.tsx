@@ -19,6 +19,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useAuth } from "@/context/AuthContext";
 
 export default function CreateTask() {
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
     const {CurrentLoggedInUser} = useAuth();
     const router = useRouter();
     const [user, setUser] = useState<{
@@ -46,7 +47,7 @@ export default function CreateTask() {
         try {
             setLoading(true);
             const taskData = { ...user, createdBy: currentUser};
-            const response = await axios.post("/api/Task/createTask", taskData);
+            const response = await axios.post(`${baseUrl}/api/Task/createTask`, taskData);
             setUser(response.data);
             toast.success("Task created Successfully");
             router.push("/pages/taskList");
