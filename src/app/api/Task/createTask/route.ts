@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import {connect} from '@/dbConfig/connect'
 import Task from '@/models/TaskModel'
 
-connect();
+
 
 export async function POST(request: NextRequest) {
     try {
+        await connect();
         const reqBody = await request.json();
         const {title, description, status, priority, dueDate, createdBy} = reqBody;
 

@@ -3,10 +3,11 @@ import User from "@/models/UserModel";
 import {connect} from '@/dbConfig/connect'
 import mongoose from "mongoose";
 
-connect();
+
 
 export async function GET(request: NextRequest, {params}: { params : {UserId: string}}) {
     try {
+        await connect();
        const {UserId} = params;
         if(!UserId){
             return NextResponse.json({error: "User does not found"}, {status: 400})

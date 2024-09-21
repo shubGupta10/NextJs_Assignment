@@ -2,11 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { connect } from '@/dbConfig/connect'
 import Task from "@/models/TaskModel";
 
-connect();
+
 
 export async function DELETE(request: NextRequest,{ params }: { params: { taskId: string } }
 ) {
     try {
+        await connect();
         const taskId = params.taskId;
         console.log("Received taskId for deletion:", taskId);
 

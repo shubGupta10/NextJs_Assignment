@@ -2,13 +2,14 @@ import { NextResponse } from 'next/server';
 import {connect} from '@/dbConfig/connect'
 import Task from '@/models/TaskModel';
 
-connect()
+
 
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
   const { id } = params;
   const { status } = await req.json(); 
 
   try {
+    await connect()
     const updatedTask = await Task.findByIdAndUpdate(
       id,
       { status },

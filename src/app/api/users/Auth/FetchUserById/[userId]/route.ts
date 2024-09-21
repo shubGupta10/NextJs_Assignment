@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { connect } from '@/dbConfig/connect';
 import User from "@/models/UserModel";
 
-connect();
+
 
 export async function GET(request: NextRequest, { params }: { params: { userId: string } }) {
     try {
+        await connect();
         const { userId } = params; 
 
         if (!userId) {
