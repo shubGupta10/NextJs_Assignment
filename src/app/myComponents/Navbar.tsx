@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import Loader from "@/app/myComponents/Loader"
+import Cookies from 'js-cookie'
 
 interface NavLinkProps {
   href: string;
@@ -25,14 +26,15 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     logout();
-    router.push("/Home");
+    Cookies.remove("token");
+    window.location.href = "/Home";
   };
 
   const handleClick = async (href: string) => {
-    setIsLoading(true); // Set loading to true when clicking
+    setIsLoading(true);
     setIsOpen(false); 
-    await router.push(href); // Wait for the navigation to complete
-    setIsLoading(false); // Reset loading state
+    await router.push(href);
+    setIsLoading(false);
   };
 
   const NavLink: React.FC<NavLinkProps> = ({ href, children }) => (
