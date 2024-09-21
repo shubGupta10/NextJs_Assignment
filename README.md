@@ -2,6 +2,10 @@
 
 Tasker is a task management application built with **Next.js**, **Node.js** , **TypeScript**, **Shadcn**, and  **Tailwind CSS**. It provides a user-friendly interface for managing tasks, including a Kanban board for organizing and tracking task progress.
 
+## Live Demo
+
+Check out the live application at [Tasker Live](https://trytasker.vercel.app/Home).
+
 ## Features
 
 - **CRUD Operations**: Create, Read, Update, and Delete tasks effortlessly.
