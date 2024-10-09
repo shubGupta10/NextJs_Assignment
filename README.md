@@ -4,8 +4,6 @@ Tasker is a task management application built with **Next.js**, **Node.js**, **T
 
 ## Live Demo
 
-Check out the live application at [Tasker Live](https://trytasker.vercel.app/Home).
-
 Watch a demo of the application [here](https://drive.google.com/file/d/1mMrVE89rKyYy1xvl_scGMjEdEr1oyHoD/view?usp=drive_link).
 
 ## Features
